@@ -119,6 +119,36 @@ public class ClienteFrame extends javax.swing.JInternalFrame {
         }
     }
     
+    
+    
+    public void alteraCliente(){
+        if(jTextNome.getText().trim().equals("")){
+            JOptionPane.showMessageDialog(this, "Informe o nome do cliente", "ERRO", JOptionPane.ERROR_MESSAGE);
+            jTextNome.requestFocus();
+        }else{
+            Cliente cliente = new Cliente();
+            cliente.setNome(jTextNome.getText().trim());
+            cliente.setEndereco(jTextEndereco.getText().trim());
+            cliente.setBairro(jTextBairro.getText().trim());
+            cliente.setCidade(jTextCidade.getText().trim());
+            cliente.setUf(cbUf.getSelectedItem().toString());
+            cliente.setCep((String)jTextCep.getValue());
+            cliente.setTelefone((String)jTextTelefone.getValue());
+            cliente.setEmail(jTextEmail.getText().trim());
+            cliente.setId((Integer)jTableClientes.getValueAt(jTableClientes.getSelectedRow(), 0));
+            
+            ClienteDAO clienteDAO = new ClienteDAO();
+            if(clienteDAO.alterarCliente(cliente)){
+                JOptionPane.showMessageDialog(this, "Cliente alterado com sucesso!!!", "Confirmação", JOptionPane.INFORMATION_MESSAGE);
+                listar();
+                desabilitarBotoes();
+                desabilitarCampos();
+            }else{
+                JOptionPane.showMessageDialog(this, "Erro ao alterar cliente", "ERRO", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -239,6 +269,11 @@ public class ClienteFrame extends javax.swing.JInternalFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        jTableClientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableClientesMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(jTableClientes);
@@ -451,6 +486,11 @@ public class ClienteFrame extends javax.swing.JInternalFrame {
 
         jButtonAlterar.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jButtonAlterar.setText("Alterar");
+        jButtonAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAlterarActionPerformed(evt);
+            }
+        });
         jPanel4.add(jButtonAlterar);
 
         jButtonExcluir.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -514,16 +554,29 @@ public class ClienteFrame extends javax.swing.JInternalFrame {
 
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
         if(modo == Util.Constantes.INSERT_MODE){
-            System.out.println(jTextCep.getValue() + " tamanho: " + jTextCep.getText().length());
             incluiCliente();
         }else if(modo == Util.Constantes.EDIT_MODE){
-            //alteraCliente();
+            alteraCliente();
         }
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
         listar();
     }//GEN-LAST:event_formInternalFrameOpened
+
+    private void jButtonAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlterarActionPerformed
+        if(jTableClientes.getSelectedRow() != -1){
+            habilitarCampos();
+            habilitarBotoes();
+            modo = Util.Constantes.EDIT_MODE;
+        }else{
+            JOptionPane.showMessageDialog(null, "Selecione um cliente na tabela", "ERRO", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButtonAlterarActionPerformed
+
+    private void jTableClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableClientesMouseClicked
+        
+    }//GEN-LAST:event_jTableClientesMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
