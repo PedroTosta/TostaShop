@@ -29,6 +29,12 @@ public class ClienteFrame extends javax.swing.JInternalFrame {
         }
     }
     
+    public void mostrar(String nome){
+        if(jTableClientes.getSelectedRow() != -1){
+            
+        }
+    }
+    
     public void pesquisar(String nome){
         ClienteDAO clienteDao = new ClienteDAO();
         List<Cliente> lista = clienteDao.pesquisaCliente(nome);
@@ -575,7 +581,9 @@ public class ClienteFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButtonAlterarActionPerformed
 
     private void jTableClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableClientesMouseClicked
-        
+        if(jTableClientes.getSelectedRow() != -1){
+            mostrar((String)jTableClientes.getValueAt(jTableClientes.getSelectedRow(), 1));
+        }
     }//GEN-LAST:event_jTableClientesMouseClicked
 
 
