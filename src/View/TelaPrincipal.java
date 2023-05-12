@@ -1,7 +1,11 @@
 package View;
 
+import Util.Constantes;
 import com.sun.source.util.TaskEvent;
+import java.awt.Color;
+import javax.swing.JColorChooser;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 public class TelaPrincipal extends javax.swing.JFrame {
 
@@ -20,6 +24,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuSistema = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jMenuCadastro = new javax.swing.JMenu();
         jMenuItemCliente = new javax.swing.JMenuItem();
         jMenuItemFornecedor = new javax.swing.JMenuItem();
@@ -68,11 +73,20 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         jMenuSistema.add(jMenuItem1);
 
+        jMenuItem2.setText("Alterar cor fundo cliente");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenuSistema.add(jMenuItem2);
+
         jMenuBar1.add(jMenuSistema);
 
         jMenuCadastro.setMnemonic('c');
         jMenuCadastro.setText("Cadastro");
 
+        jMenuItemCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/user.png"))); // NOI18N
         jMenuItemCliente.setMnemonic('l');
         jMenuItemCliente.setText("Cliente");
         jMenuItemCliente.addActionListener(new java.awt.event.ActionListener() {
@@ -82,6 +96,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         jMenuCadastro.add(jMenuItemCliente);
 
+        jMenuItemFornecedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/supplier.png"))); // NOI18N
         jMenuItemFornecedor.setMnemonic('f');
         jMenuItemFornecedor.setText("Fornecedor");
         jMenuItemFornecedor.addActionListener(new java.awt.event.ActionListener() {
@@ -91,6 +106,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         jMenuCadastro.add(jMenuItemFornecedor);
 
+        jMenuItemProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/product.png"))); // NOI18N
         jMenuItemProduto.setMnemonic('p');
         jMenuItemProduto.setText("Produto");
         jMenuCadastro.add(jMenuItemProduto);
@@ -163,6 +179,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jDesktopPane.add(ff);
     }//GEN-LAST:event_jMenuItemFornecedorActionPerformed
 
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        Color CorPadrao = (new java.awt.Color(Util.Constantes.COR_FUNDO));
+        Color cor = JColorChooser.showDialog(this, "Escolha uma cor para a cor de fundo da tela cliente", CorPadrao);
+        if (cor != null) {
+            Util.Constantes.COR_FUNDO = cor.getRGB();
+        }
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
     
     public static void main(String args[]) {
         
@@ -201,6 +225,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuCadastro;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItemCliente;
     private javax.swing.JMenuItem jMenuItemConsultarVendas;
     private javax.swing.JMenuItem jMenuItemFornecedor;
