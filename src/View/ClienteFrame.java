@@ -584,7 +584,7 @@ public class ClienteFrame extends javax.swing.JInternalFrame {
     private void jButtonPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPesquisarActionPerformed
         String nome = "%" + jTextFieldFiltro.getText() + "%";
         ClienteDAO clienteDao = new ClienteDAO();
-        List<Cliente> lista = clienteDao.pesquisaCliente(nome);
+        lista = clienteDao.pesquisaCliente(nome);
         DefaultTableModel dados = (DefaultTableModel) jTableClientes.getModel();
         dados.setRowCount(0);
         for (Cliente cliente : lista) {

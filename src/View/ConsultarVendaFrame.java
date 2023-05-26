@@ -46,7 +46,7 @@ public class ConsultarVendaFrame extends javax.swing.JInternalFrame {
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
-        setTitle("Consultar Frame");
+        setTitle("Consulta Venda");
         setToolTipText("");
         getContentPane().setLayout(new java.awt.GridBagLayout());
 

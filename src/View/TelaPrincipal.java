@@ -109,6 +109,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenuItemProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/product.png"))); // NOI18N
         jMenuItemProduto.setMnemonic('p');
         jMenuItemProduto.setText("Produto");
+        jMenuItemProduto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemProdutoActionPerformed(evt);
+            }
+        });
         jMenuCadastro.add(jMenuItemProduto);
 
         jMenuBar1.add(jMenuCadastro);
@@ -186,6 +191,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
             Util.Constantes.COR_FUNDO = cor.getRGB();
         }
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItemProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemProdutoActionPerformed
+        ProdutoFrame pf = new ProdutoFrame();
+        pf.setVisible(true);
+        jDesktopPane.add(pf);
+    }//GEN-LAST:event_jMenuItemProdutoActionPerformed
 
     
     public static void main(String args[]) {
