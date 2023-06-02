@@ -20,6 +20,8 @@ public class ProdutoDAO {
     private Connection con;
     private ResultSet rs;
     //private AcessoBD acessoBD = new AcessoBD();
+    
+    //private String consultaProduto = "SELECT p.id, p.id_fornecedor, p.nome, p.qtde_estoque, FORMAT(valor, 2, 'pt_BR'), f.* FROM produto p JOIN fornecedor f on p.id_fornecedor = f.id";
     private String consultaProduto = "SELECT p.*, f.* FROM produto p JOIN fornecedor f on p.id_fornecedor = f.id";
     private String consultaProdutoNome = "SELECT p.*, f.* FROM produto p JOIN fornecedor f on p.id_fornecedor = f.id WHERE p.nome like ?";
     private String incluiProduto = "INSERT INTO produto (nome, id_fornecedor, qtde_estoque, valor) VALUES(?, ?, ?, ?)";
@@ -38,6 +40,11 @@ public class ProdutoDAO {
                 produto.setId(rs.getInt("p.id"));
                 produto.setNome(rs.getString("p.nome"));
                 produto.setQtdeEstoque(rs.getInt("p.qtde_estoque"));
+                //produto.setValor(rs.getDouble("FORMAT(valor, 2, 'pt_BR')"));
+                
+                /*String valor = String.valueOf(rs.getDouble("p.valor"));
+                valor = valor.replace(".", ",");
+                produto.setValor(Double.parseDouble(valor));*/
                 produto.setValor(rs.getDouble("p.valor"));
 
                 Fornecedor fornecedor = new Fornecedor();
