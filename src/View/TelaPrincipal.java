@@ -196,6 +196,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         ProdutoFrame pf = new ProdutoFrame();
         pf.setVisible(true);
         jDesktopPane.add(pf);
+        pf.requestFocus();
     }//GEN-LAST:event_jMenuItemProdutoActionPerformed
 
     

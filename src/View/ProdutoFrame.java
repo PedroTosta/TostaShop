@@ -3,15 +3,23 @@ package View;
 import Controller.ProdutoDAO;
 import Model.Fornecedor;
 import Model.Produto;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.text.DecimalFormat;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.NumberFormatter;
 
 public class ProdutoFrame extends javax.swing.JInternalFrame {
-
+    
+    
+    
     private int modo;
     List<Produto> lista;
     private Fornecedor fornecedor;
+    private RegistrarVendaFrame registraVenda;
     
     public Fornecedor getFornecedor() {
         return fornecedor;
@@ -24,8 +32,43 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
     
     public ProdutoFrame() {
         initComponents();
+        try {
+            DecimalFormat formatoValor = new DecimalFormat("#,###.00");
+            NumberFormatter formatterValor = new NumberFormatter(formatoValor);
+            formatterValor.setValueClass(Double.class);
+            jTextValor.setFormatterFactory(new DefaultFormatterFactory(formatterValor));
+
+            DecimalFormat formatoEstoque = new DecimalFormat("#,###");
+            NumberFormatter formatterEstoque = new NumberFormatter(formatoEstoque);
+            formatterEstoque.setValueClass(Integer.class);
+            jTextEstoque.setFormatterFactory(new DefaultFormatterFactory(formatterEstoque));
+        } catch (Exception ex) {
+            Logger.getLogger(ProdutoFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        listar();
+        btnSelecionaProduto.setVisible(false);
     }
-       
+    
+    public ProdutoFrame(RegistrarVendaFrame registraVenda) {
+        initComponents();
+        try {
+            DecimalFormat formatoValor = new DecimalFormat("#,###.00");
+            NumberFormatter formatterValor = new NumberFormatter(formatoValor);
+            formatterValor.setValueClass(Double.class);
+            jTextValor.setFormatterFactory(new DefaultFormatterFactory(formatterValor));
+
+            DecimalFormat formatoEstoque = new DecimalFormat("#,###");
+            NumberFormatter formatterEstoque = new NumberFormatter(formatoEstoque);
+            formatterEstoque.setValueClass(Integer.class);
+            jTextEstoque.setFormatterFactory(new DefaultFormatterFactory(formatterEstoque));
+        } catch (Exception ex) {
+            Logger.getLogger(ProdutoFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        listar();
+        btnSelecionaProduto.setVisible(true);
+        this.registraVenda = registraVenda;
+    }
+                   
     public void listar(){
         ProdutoDAO produtoDao = new ProdutoDAO();
         lista = produtoDao.consultaProduto();
@@ -44,7 +87,8 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         if (jTableProdutos.getSelectedRow() != -1) {
             jTextNome.setText(lista.get(index).getNome());
             jTextEstoque.setText(String.valueOf(lista.get(index).getQtdeEstoque()));
-            jTextValor.setText(String.valueOf(lista.get(index).getValor()));                        
+            jTextValor.setText(String.valueOf(lista.get(index).getValor()));        
+            setFornecedor(lista.get(index).getFornecedor());
         }
     }
     
@@ -178,7 +222,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
         btnSelecionaFornecedor = new javax.swing.JButton();
         jTextEstoque = new javax.swing.JFormattedTextField();
         jPanel4 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
+        btnSelecionaProduto = new javax.swing.JButton();
         jButtonNovo = new javax.swing.JButton();
         jButtonAlterar = new javax.swing.JButton();
         jButtonExcluir = new javax.swing.JButton();
@@ -404,8 +448,13 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
 
         jPanel4.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT));
 
-        jButton2.setText("Seleciona Produto");
-        jPanel4.add(jButton2);
+        btnSelecionaProduto.setText("Seleciona Produto");
+        btnSelecionaProduto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSelecionaProdutoActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btnSelecionaProduto);
 
         jButtonNovo.setText("Novo");
         jButtonNovo.addActionListener(new java.awt.event.ActionListener() {
@@ -477,7 +526,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formInternalFrameOpened
 
     private void jTableProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableProdutosMouseClicked
-        if (jTableProdutos.getSelectedRow() >= 0) {
+        if (jTableProdutos.getSelectedRow() != -1) {
             mostrar();
         }
     }//GEN-LAST:event_jTableProdutosMouseClicked
@@ -490,7 +539,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButtonNovoActionPerformed
 
     private void jButtonAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlterarActionPerformed
-        if (jTableProdutos.getSelectedRow() >= 0) {
+        if (jTableProdutos.getSelectedRow() != -1) {
             limparCampos();
             mostrar();
             habilitarCampos();
@@ -502,9 +551,9 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButtonAlterarActionPerformed
 
     private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
-        if (jTableProdutos.getSelectedRow() >= 0) {
+        if (jTableProdutos.getSelectedRow() != -1) {
             int op = JOptionPane.showConfirmDialog(null, "Você tem certeza que deseja excluir o produto " + lista.get(jTableProdutos.getSelectedRow()).getNome(), "Confirmar exclusão", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-            if (op == 0) {
+            if (op == JOptionPane.YES_OPTION) {
                 excluirProduto();
             }
         } else {
@@ -527,13 +576,27 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     private void btnSelecionaFornecedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelecionaFornecedorActionPerformed
-        
+        FornecedorFrame ff = new FornecedorFrame(this);
+        ff.setVisible(true);
+        this.getDesktopPane().add(ff);
+        ff.toFront(); 
     }//GEN-LAST:event_btnSelecionaFornecedorActionPerformed
+
+    private void btnSelecionaProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelecionaProdutoActionPerformed
+         if (jTableProdutos.getSelectedRow() != -1) {
+            int numeroLinha = jTableProdutos.getSelectedRow();
+            registraVenda.setProduto(lista.get(jTableProdutos.getSelectedRow()));
+            this.dispose();
+            registraVenda.toFront();
+        } else {
+            JOptionPane.showMessageDialog(this, "Selecione um produto da lista!", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnSelecionaProdutoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSelecionaFornecedor;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnSelecionaProduto;
     private javax.swing.JButton jButtonAlterar;
     private javax.swing.JButton jButtonCancelar;
     private javax.swing.JButton jButtonExcluir;

@@ -10,10 +10,21 @@ public class ClienteFrame extends javax.swing.JInternalFrame {
 
     private int modo;
     List<Cliente> lista;
+    private RegistrarVendaFrame registraVenda;
 
     public ClienteFrame() {
         initComponents();
+        btnSelecionaCliente.setVisible(false);
         jPanel1.setBackground(new java.awt.Color(Util.Constantes.COR_FUNDO));
+    }
+    
+    public ClienteFrame(RegistrarVendaFrame registraVenda) {
+        initComponents();
+        jPanel1.setBackground(new java.awt.Color(Util.Constantes.COR_FUNDO));
+        btnSelecionaCliente.setVisible(true);
+        listar();
+        btnSelecionaCliente.setVisible(true);
+        this.registraVenda = registraVenda;
     }
 
     public void listar() {
@@ -218,6 +229,7 @@ public class ClienteFrame extends javax.swing.JInternalFrame {
         jTextCep = new javax.swing.JFormattedTextField();
         jTextTelefone = new javax.swing.JFormattedTextField();
         jPanel4 = new javax.swing.JPanel();
+        btnSelecionaCliente = new javax.swing.JButton();
         jButtonNovo = new javax.swing.JButton();
         jButtonAlterar = new javax.swing.JButton();
         jButtonExcluir = new javax.swing.JButton();
@@ -519,6 +531,14 @@ public class ClienteFrame extends javax.swing.JInternalFrame {
 
         jPanel4.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.TRAILING));
 
+        btnSelecionaCliente.setText("Seleciona cliente");
+        btnSelecionaCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSelecionaClienteActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btnSelecionaCliente);
+
         jButtonNovo.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jButtonNovo.setText("Novo");
         jButtonNovo.setToolTipText("Botão novo");
@@ -648,8 +668,20 @@ public class ClienteFrame extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jButtonExcluirActionPerformed
 
+    private void btnSelecionaClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelecionaClienteActionPerformed
+        if (jTableClientes.getSelectedRow() != -1) {
+            int numeroLinha = jTableClientes.getSelectedRow();
+            registraVenda.setCliente(lista.get(jTableClientes.getSelectedRow()));
+            this.dispose();
+            registraVenda.toFront();
+        } else {
+            JOptionPane.showMessageDialog(this, "Selecione um cliente da lista!", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnSelecionaClienteActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnSelecionaCliente;
     private javax.swing.JComboBox<String> cbUf;
     private javax.swing.JButton jButtonAlterar;
     private javax.swing.JButton jButtonCancelar;

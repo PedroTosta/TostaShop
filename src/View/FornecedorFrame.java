@@ -10,9 +10,19 @@ public class FornecedorFrame extends javax.swing.JInternalFrame {
 
     private int modo;
     List<Fornecedor> lista;
+    private ProdutoFrame produtoFrame;
     
     public FornecedorFrame() {
         initComponents();
+        listar();
+        btnSelecionarFornecedor.setVisible(false);
+    }
+    
+    public FornecedorFrame(ProdutoFrame produtoFrame) {
+        initComponents();
+        listar();
+        btnSelecionarFornecedor.setVisible(true);
+        this.produtoFrame = produtoFrame;
     }
 
     public void listar() {
@@ -204,7 +214,7 @@ public class FornecedorFrame extends javax.swing.JInternalFrame {
         jTextEmail = new javax.swing.JTextField();
         jTextCep = new javax.swing.JFormattedTextField();
         jPanel4 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        btnSelecionarFornecedor = new javax.swing.JButton();
         jButtonNovo = new javax.swing.JButton();
         jButtonAlterar = new javax.swing.JButton();
         jButtonExcluir = new javax.swing.JButton();
@@ -293,6 +303,11 @@ public class FornecedorFrame extends javax.swing.JInternalFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        jTableFornecedores.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableFornecedoresMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(jTableFornecedores);
@@ -490,9 +505,14 @@ public class FornecedorFrame extends javax.swing.JInternalFrame {
 
         jPanel4.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.TRAILING));
 
-        jButton1.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jButton1.setText("Selecionar Fornecedor");
-        jPanel4.add(jButton1);
+        btnSelecionarFornecedor.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnSelecionarFornecedor.setText("Selecionar Fornecedor");
+        btnSelecionarFornecedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSelecionarFornecedorActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btnSelecionarFornecedor);
 
         jButtonNovo.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jButtonNovo.setText("Novo");
@@ -583,7 +603,7 @@ public class FornecedorFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
     private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
-        if (jTableFornecedores.getSelectedRow() >= 0) {
+        if (jTableFornecedores.getSelectedRow() != -1) {
             int op = JOptionPane.showConfirmDialog(null, "Você tem certeza que deseja excluir o fornecedor " + lista.get(jTableFornecedores.getSelectedRow()).getNome(), "Confirmar exclusão", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
             if (op == 0) {
                 excluirFornecedor();
@@ -594,7 +614,7 @@ public class FornecedorFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButtonExcluirActionPerformed
 
     private void jButtonAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlterarActionPerformed
-        if (jTableFornecedores.getSelectedRow() >= 0) {
+        if (jTableFornecedores.getSelectedRow() != -1) {
             limparCampos();
             mostrar();
             habilitarCampos();
@@ -612,10 +632,24 @@ public class FornecedorFrame extends javax.swing.JInternalFrame {
         modo = Util.Constantes.INSERT_MODE;
     }//GEN-LAST:event_jButtonNovoActionPerformed
 
+    private void btnSelecionarFornecedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelecionarFornecedorActionPerformed
+        if (jTableFornecedores.getSelectedRow() != -1) {
+            produtoFrame.setFornecedor(lista.get(jTableFornecedores.getSelectedRow()));
+            this.dispose();
+            produtoFrame.toFront();
+        } else {
+            JOptionPane.showMessageDialog(null, "Selecione um fornecedor na tabela", "ERRO", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnSelecionarFornecedorActionPerformed
+
+    private void jTableFornecedoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableFornecedoresMouseClicked
+        mostrar();
+    }//GEN-LAST:event_jTableFornecedoresMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnSelecionarFornecedor;
     private javax.swing.JComboBox<String> cbUf;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonAlterar;
     private javax.swing.JButton jButtonCancelar;
     private javax.swing.JButton jButtonExcluir;

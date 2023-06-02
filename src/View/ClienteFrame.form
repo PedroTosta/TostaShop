@@ -440,6 +440,14 @@
         <Property name="alignment" type="int" value="4"/>
       </Layout>
       <SubComponents>
+        <Component class="javax.swing.JButton" name="btnSelecionaCliente">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Seleciona cliente"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSelecionaClienteActionPerformed"/>
+          </Events>
+        </Component>
         <Component class="javax.swing.JButton" name="jButtonNovo">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
