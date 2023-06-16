@@ -8,9 +8,9 @@ public class Conexao {
     public static Connection conectar(){
         Connection conexao = null;
         String driver = "com.mysql.cj.jdbc.Driver";
-        String url = "jdbc:mysql://tostashop.mysql.uhserver.com/tostashop";
-        String usuario = "usuariotosta1";
-        String senha = "@P011o";
+        String url = "jdbc:mysql://localhost/tostashop";
+        String usuario = "root";
+        String senha = "root";
         
         try{
             Class.forName(driver);

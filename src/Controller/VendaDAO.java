@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author Cleber Feitosa
  */
-public class VendaBD {
+public class VendaDAO {
 
     private PreparedStatement pst;
     private ResultSet rs;

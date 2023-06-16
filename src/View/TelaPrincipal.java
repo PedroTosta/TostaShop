@@ -121,12 +121,24 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenuVendas.setMnemonic('v');
         jMenuVendas.setText("Vendas");
 
+        jMenuItemRegistrarVendas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/sale.png"))); // NOI18N
         jMenuItemRegistrarVendas.setMnemonic('r');
         jMenuItemRegistrarVendas.setText("Registrar Vendas");
+        jMenuItemRegistrarVendas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemRegistrarVendasActionPerformed(evt);
+            }
+        });
         jMenuVendas.add(jMenuItemRegistrarVendas);
 
+        jMenuItemConsultarVendas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/sales.png"))); // NOI18N
         jMenuItemConsultarVendas.setMnemonic('c');
         jMenuItemConsultarVendas.setText("Consultar Vendas");
+        jMenuItemConsultarVendas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemConsultarVendasActionPerformed(evt);
+            }
+        });
         jMenuVendas.add(jMenuItemConsultarVendas);
 
         jMenuBar1.add(jMenuVendas);
@@ -198,6 +210,18 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jDesktopPane.add(pf);
         pf.requestFocus();
     }//GEN-LAST:event_jMenuItemProdutoActionPerformed
+
+    private void jMenuItemRegistrarVendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRegistrarVendasActionPerformed
+        RegistrarVendaFrame rv = new RegistrarVendaFrame();
+        rv.setVisible(true);
+        jDesktopPane.add(rv);
+    }//GEN-LAST:event_jMenuItemRegistrarVendasActionPerformed
+
+    private void jMenuItemConsultarVendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemConsultarVendasActionPerformed
+        ConsultarVendaFrame cv = new ConsultarVendaFrame();
+        cv.setVisible(true);
+        jDesktopPane.add(cv);        
+    }//GEN-LAST:event_jMenuItemConsultarVendasActionPerformed
 
     
     public static void main(String args[]) {

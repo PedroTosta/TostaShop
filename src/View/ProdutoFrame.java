@@ -31,20 +31,7 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
     }
     
     public ProdutoFrame() {
-        initComponents();
-        try {
-            DecimalFormat formatoValor = new DecimalFormat("#,###.00");
-            NumberFormatter formatterValor = new NumberFormatter(formatoValor);
-            formatterValor.setValueClass(Double.class);
-            jTextValor.setFormatterFactory(new DefaultFormatterFactory(formatterValor));
-
-            DecimalFormat formatoEstoque = new DecimalFormat("#,###");
-            NumberFormatter formatterEstoque = new NumberFormatter(formatoEstoque);
-            formatterEstoque.setValueClass(Integer.class);
-            jTextEstoque.setFormatterFactory(new DefaultFormatterFactory(formatterEstoque));
-        } catch (Exception ex) {
-            Logger.getLogger(ProdutoFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        initComponents();        
         listar();
         btnSelecionaProduto.setVisible(false);
     }
@@ -80,15 +67,29 @@ public class ProdutoFrame extends javax.swing.JInternalFrame {
                 produto.getNome()
             });
         }
+        
+        try {
+            DecimalFormat formatoValor = new DecimalFormat("#,###.00");
+            NumberFormatter formatterValor = new NumberFormatter(formatoValor);
+            formatterValor.setValueClass(Double.class);
+            jTextValor.setFormatterFactory(new DefaultFormatterFactory(formatterValor));
+
+            DecimalFormat formatoEstoque = new DecimalFormat("#,###");
+            NumberFormatter formatterEstoque = new NumberFormatter(formatoEstoque);
+            formatterEstoque.setValueClass(Integer.class);
+            jTextEstoque.setFormatterFactory(new DefaultFormatterFactory(formatterEstoque));
+        } catch (Exception ex) {
+            Logger.getLogger(ProdutoFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public void mostrar() {
         int index = jTableProdutos.getSelectedRow();
-        if (jTableProdutos.getSelectedRow() != -1) {
+        if (jTableProdutos.getSelectedRow() != -1) {                        
             jTextNome.setText(lista.get(index).getNome());
             jTextEstoque.setText(String.valueOf(lista.get(index).getQtdeEstoque()));
-            jTextValor.setText(String.valueOf(lista.get(index).getValor()));        
-            setFornecedor(lista.get(index).getFornecedor());
+            jTextValor.setText(String.valueOf(lista.get(index).getValor()));
+            setFornecedor(lista.get(index).getFornecedor());            
         }
     }
     
