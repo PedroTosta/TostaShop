@@ -23,7 +23,7 @@ public class VendaDAO {
     private Connection con;
     private String registraVenda = "INSERT INTO venda (id_cliente, data_venda) values(?, ?)";
     private String registraItensVenda = "insert into itens_venda (id_produto, id_venda, qtde, valor) values(?, ?, ?, ?)";
-    private String consultaUltimoId = "select LAST_INSERT_ID() as id from venda";
+    private String consultaUltimoId = "select MAX(id) as id from venda";
     private String consultaVendaPeriodo = "select v.*, c.* from venda v join cliente c on v.id_cliente = c.id where v.data_venda between ? and ?";
     private String consultaItensVenda = "select i.*, p.* from itens_venda i join produto p on i.id_produto = p.id where i.id_venda = ?";
 
@@ -38,7 +38,7 @@ public class VendaDAO {
 
             pst = Conexao.conectar().prepareStatement(consultaUltimoId);
             rs = pst.executeQuery();
-            rs.first();
+            rs.next();
             venda.setId(rs.getInt("id"));
 
             for (int i = 0; i < venda.getItensVenda().size(); i++) {

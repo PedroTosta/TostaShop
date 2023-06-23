@@ -9,12 +9,16 @@ import javax.swing.UIManager;
 
 public class TelaPrincipal extends javax.swing.JFrame {
 
+    private String perfil = "USER";
     public TelaPrincipal() {
         initComponents();
+        if(perfil.equals("ADM")){
+            jMenuUsuario.setVisible(true);
+        }else{
+            jMenuUsuario.setVisible(false);
+        }
     }
 
-    
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -29,6 +33,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenuItemCliente = new javax.swing.JMenuItem();
         jMenuItemFornecedor = new javax.swing.JMenuItem();
         jMenuItemProduto = new javax.swing.JMenuItem();
+        jMenuUsuario = new javax.swing.JMenuItem();
         jMenuVendas = new javax.swing.JMenu();
         jMenuItemRegistrarVendas = new javax.swing.JMenuItem();
         jMenuItemConsultarVendas = new javax.swing.JMenuItem();
@@ -115,6 +120,15 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
         });
         jMenuCadastro.add(jMenuItemProduto);
+
+        jMenuUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/users.png"))); // NOI18N
+        jMenuUsuario.setText("Usuário");
+        jMenuUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuUsuarioActionPerformed(evt);
+            }
+        });
+        jMenuCadastro.add(jMenuUsuario);
 
         jMenuBar1.add(jMenuCadastro);
 
@@ -223,6 +237,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jDesktopPane.add(cv);        
     }//GEN-LAST:event_jMenuItemConsultarVendasActionPerformed
 
+    private void jMenuUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuUsuarioActionPerformed
+        UsuarioFrame uf = new UsuarioFrame();
+        uf.setVisible(true);
+        jDesktopPane.add(uf);
+    }//GEN-LAST:event_jMenuUsuarioActionPerformed
+
     
     public static void main(String args[]) {
         
@@ -269,6 +289,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemRegistrarVendas;
     private javax.swing.JMenuItem jMenuItemSobre;
     private javax.swing.JMenu jMenuSistema;
+    private javax.swing.JMenuItem jMenuUsuario;
     private javax.swing.JMenu jMenuVendas;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables

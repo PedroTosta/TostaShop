@@ -80,20 +80,24 @@ public class RegistrarVendaFrame extends javax.swing.JInternalFrame {
         }
         jTextValorTotal.setValue(valorTotal);        
     }  */
-    public void listar() {
-        int index = jTableProdutos.getRowCount();
+    public void listar() {       
+        int numeroLinhas = jTableProdutos.getRowCount();
+        for (int i = 0; i < numeroLinhas; i++) {
+            tableModel.removeRow(0);
+        }
         double valorTotal = 0.0;
-        tableModel.addRow(new Object[]{itensVenda.get(index).getProduto().getNome(),
-            itensVenda.get(index).getQtde(),
-            itensVenda.get(index).getProduto().getValor(),
-            itensVenda.get(index).getProduto().getValor() * itensVenda.get(index).getQtde()
-        });
-
-        for(int i = 0; i < itensVenda.size(); i++){
+        
+        for (int i = 0; i < itensVenda.size(); i++) {
+            tableModel.insertRow(i, new Object[]{itensVenda.get(i).getProduto().getNome(),
+                itensVenda.get(i).getQtde(),
+                itensVenda.get(i).getProduto().getValor(),
+                itensVenda.get(i).getProduto().getValor() * itensVenda.get(i).getQtde()
+            });
             valorTotal += itensVenda.get(i).getProduto().getValor() * itensVenda.get(i).getQtde();
         }
         jTextValorTotal.setValue(valorTotal);
     }
+
 
     public void incluirProduto() {
         if (produto == null) {
@@ -124,11 +128,9 @@ public class RegistrarVendaFrame extends javax.swing.JInternalFrame {
     }
 
     public void limparCampos() {
-        jTextCliente.setText("");
         jTextProduto.setText("");
         jTextQtde.setText("");
         produto = null;
-        cliente = null;
     }
 
     private void registrarVenda() {
@@ -148,7 +150,15 @@ public class RegistrarVendaFrame extends javax.swing.JInternalFrame {
             VendaDAO vendaBD = new VendaDAO();
             if (vendaBD.registrarVenda(venda)) {
                 JOptionPane.showMessageDialog(this, "Venda registrada com sucesso!", "Informação", JOptionPane.INFORMATION_MESSAGE);
-                this.dispose();
+                jTextCliente.setText("");
+                jTextProduto.setText("");
+                jTextQtde.setText("");
+                produto = null;
+                cliente = null;
+                int numeroLinhas = jTableProdutos.getRowCount();
+                for (int i = 0; i < numeroLinhas; i++) {
+                    tableModel.removeRow(0);
+                }
             }
         }
     }
