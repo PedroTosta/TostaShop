@@ -167,7 +167,7 @@ public class UsuarioFrame extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtFiltroNome = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableUsuarios = new javax.swing.JTable();
@@ -244,9 +244,14 @@ public class UsuarioFrame extends javax.swing.JInternalFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel2.add(jTextField1, gridBagConstraints);
+        jPanel2.add(txtFiltroNome, gridBagConstraints);
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/search.png"))); // NOI18N
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
@@ -506,6 +511,19 @@ public class UsuarioFrame extends javax.swing.JInternalFrame {
         listar();
     }//GEN-LAST:event_formInternalFrameOpened
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String nome = "%" + txtFiltroNome.getText() + "%";
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        lista = usuarioDAO.pesquisaUsuario(nome);
+        DefaultTableModel dados = (DefaultTableModel) jTableUsuarios.getModel();
+        dados.setRowCount(0);
+        for (Usuario usuario : lista) {
+            dados.addRow(new Object[]{
+                usuario.getId(),
+                usuario.getNome(),});
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> cbPerfil;
@@ -528,8 +546,8 @@ public class UsuarioFrame extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableUsuarios;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextField txtFiltroNome;
     private javax.swing.JTextField txtNome;
     private javax.swing.JPasswordField txtSenha;
     private javax.swing.JTextField txtUsuario;
