@@ -1,5 +1,6 @@
 package View;
 
+import Model.Usuario;
 import Util.Constantes;
 import com.sun.source.util.TaskEvent;
 import java.awt.Color;
@@ -9,13 +10,18 @@ import javax.swing.UIManager;
 
 public class TelaPrincipal extends javax.swing.JFrame {
 
-    private String perfil = "USER";
     public TelaPrincipal() {
         initComponents();
-        if(perfil.equals("ADM")){
+    }
+    
+    public TelaPrincipal(String perfil) {
+        initComponents();
+        if (perfil.equals("ADMIN")) {
             jMenuUsuario.setVisible(true);
-        }else{
+            jMenuItemConsultarVendas.setVisible(true);
+        } else {
             jMenuUsuario.setVisible(false);
+            jMenuItemConsultarVendas.setVisible(false);
         }
     }
 
@@ -28,6 +34,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuSistema = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuCadastro = new javax.swing.JMenu();
         jMenuItemCliente = new javax.swing.JMenuItem();
@@ -77,6 +84,15 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
         });
         jMenuSistema.add(jMenuItem1);
+
+        jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/off.png"))); // NOI18N
+        jMenuItem3.setText("Deslogar");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenuSistema.add(jMenuItem3);
 
         jMenuItem2.setText("Alterar cor fundo cliente");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
@@ -234,7 +250,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private void jMenuItemConsultarVendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemConsultarVendasActionPerformed
         ConsultarVendaFrame cv = new ConsultarVendaFrame();
         cv.setVisible(true);
-        jDesktopPane.add(cv);        
+        jDesktopPane.add(cv);
     }//GEN-LAST:event_jMenuItemConsultarVendasActionPerformed
 
     private void jMenuUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuUsuarioActionPerformed
@@ -243,9 +259,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jDesktopPane.add(uf);
     }//GEN-LAST:event_jMenuUsuarioActionPerformed
 
-    
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+       LoginFrame lf = new LoginFrame();
+       lf.setVisible(true);
+       dispose();
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
     public static void main(String args[]) {
-        
+
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
@@ -282,6 +303,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuCadastro;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItemCliente;
     private javax.swing.JMenuItem jMenuItemConsultarVendas;
     private javax.swing.JMenuItem jMenuItemFornecedor;

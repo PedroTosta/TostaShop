@@ -26,6 +26,20 @@ public class UsuarioFrame extends javax.swing.JInternalFrame {
         }
     }
 
+    public void listar() {
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        //List<Cliente> lista = clienteDao.consultaCliente();
+        lista = usuarioDAO.consultaUsuario();
+        DefaultTableModel dados = (DefaultTableModel) jTableUsuarios.getModel();
+        dados.setNumRows(0);
+        for (Usuario usuario : lista) {
+            dados.addRow(new Object[]{
+                usuario.getId(),
+                usuario.getNome()
+            });
+        }
+    }
+    
     private void habilitarCampos() {
         txtNome.setEnabled(true);
         txtEmail.setEnabled(true);
@@ -104,51 +118,43 @@ public class UsuarioFrame extends javax.swing.JInternalFrame {
         }
     }
 
-    public void alteraCliente() {
-        if (jTextNome.getText().trim().equals("")) {
-            JOptionPane.showMessageDialog(this, "Informe o nome do cliente", "ERRO", JOptionPane.ERROR_MESSAGE);
-            jTextNome.requestFocus();
+    public void alteraUsuario() {
+        if (txtNome.getText().trim().equals("")) {
+            JOptionPane.showMessageDialog(this, "Informe o nome do Usuário", "ERRO", JOptionPane.ERROR_MESSAGE);
+            txtNome.requestFocus();
         } else {
-            Cliente cliente = new Cliente();
-            cliente.setId((Integer) jTableClientes.getValueAt(jTableClientes.getSelectedRow(), 0));
-            cliente.setNome(jTextNome.getText().trim());
-            cliente.setEndereco(jTextEndereco.getText().trim());
-            cliente.setBairro(jTextBairro.getText().trim());
-            cliente.setCidade(jTextCidade.getText().trim());
-            cliente.setUf(cbUf.getSelectedItem().toString());
-            String cep = jTextCep.getText().replace("-", "");
-            cliente.setCep(cep);
-            String telefone = jTextTelefone.getText().replace("(", "");
-            telefone = telefone.replace(")", "");
-            telefone = telefone.replace("-", "");
-            cliente.setTelefone(telefone);
-            cliente.setEmail(jTextEmail.getText().trim());
+            Usuario usuario = new Usuario();
+            usuario.setNome(txtNome.getText().trim());
+            usuario.setEmail(txtEmail.getText().trim());
+            usuario.setUsuario(txtUsuario.getText().trim());
+            usuario.setSenha(txtSenha.getText().trim());
+            usuario.setPerfil(cbPerfil.getSelectedItem().toString());
 
-            ClienteDAO clienteDAO = new ClienteDAO();
-            if (clienteDAO.alterarCliente(cliente)) {
-                JOptionPane.showMessageDialog(this, "Cliente alterado com sucesso!!!", "Confirmação", JOptionPane.INFORMATION_MESSAGE);
+            UsuarioDAO usuarioDAO = new UsuarioDAO();
+            if (usuarioDAO.alterarUsuario(usuario)) {
+                JOptionPane.showMessageDialog(this, "Usuário alterado com sucesso!!!", "Confirmação", JOptionPane.INFORMATION_MESSAGE);
                 listar();
                 desabilitarBotoes();
                 desabilitarCampos();
             } else {
-                JOptionPane.showMessageDialog(this, "Erro ao alterar cliente", "ERRO", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Erro ao alterar Usuário", "ERRO", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
 
-    public void excluirCliente() {
-        Cliente cliente = new Cliente();
-        cliente.setId((Integer) jTableClientes.getValueAt(jTableClientes.getSelectedRow(), 0));
+    public void excluirUsuario() {
+        Usuario usuario = new Usuario();
+        usuario.setId((Integer) jTableUsuarios.getValueAt(jTableUsuarios.getSelectedRow(), 0));
 
-        ClienteDAO clienteDAO = new ClienteDAO();
-        if (clienteDAO.excluirCliente(cliente)) {
-            JOptionPane.showMessageDialog(this, "Cliente excluido com sucesso!!!", "Confirmação", JOptionPane.INFORMATION_MESSAGE);
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        if (usuarioDAO.excluirUsuario(usuario)) {
+            JOptionPane.showMessageDialog(this, "Usuario excluido com sucesso!!!", "Confirmação", JOptionPane.INFORMATION_MESSAGE);
             listar();
             limparCampos();
             desabilitarBotoes();           
             desabilitarCampos();            
         } else {
-            JOptionPane.showMessageDialog(this, "Erro ao excluir cliente", "ERRO", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Erro ao excluir usuario", "ERRO", JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -189,6 +195,23 @@ public class UsuarioFrame extends javax.swing.JInternalFrame {
         setTitle("Usuário");
         setPreferredSize(new java.awt.Dimension(700, 550));
         setRequestFocusEnabled(false);
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameOpened(evt);
+            }
+        });
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         jPanel1.setBackground(new java.awt.Color(0, 102, 255));
@@ -478,6 +501,10 @@ public class UsuarioFrame extends javax.swing.JInternalFrame {
     private void jTableUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableUsuariosMouseClicked
         mostrar();
     }//GEN-LAST:event_jTableUsuariosMouseClicked
+
+    private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
+        listar();
+    }//GEN-LAST:event_formInternalFrameOpened
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

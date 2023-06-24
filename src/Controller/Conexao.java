@@ -8,7 +8,7 @@ public class Conexao {
     public static Connection conectar(){
         Connection conexao = null;
         String driver = "com.mysql.cj.jdbc.Driver";
-        String url = "jdbc:mysql://localhost/tostashop";
+        String url = "jdbc:mysql://localhost/tostashop?useTimeZone=true&serverTimezone=UTC";
         String usuario = "root";
         String senha = "root";
         
